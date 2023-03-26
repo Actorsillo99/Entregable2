@@ -1,62 +1,63 @@
 ﻿using ENTREGABLE2.Classes;
 
+bool condicion = true;
+string nameIngrediente;
+int cantIngrediente;
+float precioIngrediente;
 
-//Creacion de Monoplazas
-MonoplazaFerrari MonoFerrari = new MonoplazaFerrari();
-MonoFerrari.scuderia="Ferrari";
-MonoplazaMclaren MonoMclaren = new MonoplazaMclaren();
-MonoMclaren.scuderia="Mclaren";
-MonoplazaRedbull MonoRedBull = new MonoplazaRedbull();
-MonoRedBull.scuderia="RedBull";
+Pastel pastel = new Pastel();
 
+while (condicion)
+{
+    Console.WriteLine("\nIngrese el nombre del Pastel (1)"); 
+    Console.WriteLine("Ingrese un ingrediente (2)"); 
+    Console.WriteLine("Listar Ingredientes (3)");
+    Console.WriteLine("Calcular Cantidad de Ingredientes(4)");
+    Console.WriteLine("Calcular Costo(5)");
+    Console.WriteLine("Exit (0)");
 
-//Instancia de cada MonoPlaza en Circuito
-Circuito circuitoFerrari = new Circuito(MonoFerrari);
-Circuito circuitoMclaren = new Circuito(MonoMclaren);
-Circuito circuitoRedBull = new Circuito(MonoRedBull);
+    int menu = int.Parse(Console.ReadLine());
 
-//Nombre del circuito
-Console.WriteLine("Ingrese el nombre del circuito");
-circuitoFerrari.nombre = Console.ReadLine();
-circuitoMclaren.nombre= circuitoFerrari.nombre;
-circuitoRedBull.nombre=circuitoFerrari.nombre;
+    switch (menu)
+    {
+        case 1:
+            Console.WriteLine("\nNOMBRE: ");      
+            pastel.nombre = (Console.ReadLine()).ToUpper();
+            break;
 
-//Numero de vueltas
-Console.WriteLine("Ingrese cantidad de vueltas");
-int numVueltas = int.Parse(Console.ReadLine());
+        case 2:
+        
+            Console.WriteLine("\nIngrese el nombre del ingrediente"); 
+            nameIngrediente= (Console.ReadLine()).ToUpper();
+            Console.WriteLine("\nIngrese la Cantidad"); 
+            cantIngrediente = int.Parse(Console.ReadLine());
+            Console.WriteLine("\nIngrese el precio del ingrediente"); 
+            precioIngrediente= float.Parse(Console.ReadLine());
+            pastel.AgregarIngrediente(nameIngrediente,cantIngrediente,precioIngrediente);
+            break; 
 
-Dictionary<string, float> mejorTiempo = new Dictionary<string, float>();
+        case 3:
+            Console.WriteLine($"\n{pastel.nombre} ");     
+            Console.WriteLine("INGREDIENTES: ");         
+            pastel.ListarIngredientes();
+            break; 
 
-//Acciones de Ferrari
-Console.WriteLine("-----PRUEBA DE FERRARI-----");
-circuitoFerrari.AgregarMonoplaza();
-Console.WriteLine(circuitoFerrari.Realizarprueba(numVueltas,MonoFerrari.scuderia));
-mejorTiempo.Add("Ferrari", circuitoFerrari.Mostrar_Mejor_Tiempo());
-circuitoFerrari.SacarMonoplaza();
+        case 4:
+            Console.WriteLine($"\n{pastel.nombre} ");     
+            Console.WriteLine("CANTIDAD DE INGREDIENTES: "); 
+            Console.WriteLine(pastel.CantidadIngredientes());
+            break; 
 
+        case 5:
+            Console.WriteLine($"\n{pastel.nombre} ");     
+            Console.WriteLine("COSTO DEL PASTEL: "); 
+            Console.WriteLine(pastel.CalcularCosto()); 
+            break; 
 
-//Acciones de Mclaren
-Console.WriteLine("-----PRUEBA DE MCLAREN-----");
-circuitoMclaren.AgregarMonoplaza();
-Console.WriteLine(circuitoMclaren.Realizarprueba(numVueltas,MonoMclaren.scuderia));
-mejorTiempo.Add("Mclaren", circuitoMclaren.Mostrar_Mejor_Tiempo());
-circuitoMclaren.SacarMonoplaza();
+        case 0:
+        default: 
+            condicion = false;
+            break;
+    }
+}
 
-
-
-//Acciones de Redbull
-Console.WriteLine("-----PRUEBA DE REDBULL-----");
-circuitoRedBull.AgregarMonoplaza();
-Console.WriteLine(circuitoRedBull.Realizarprueba(numVueltas, MonoRedBull.scuderia));
-mejorTiempo.Add("Redbull", circuitoRedBull.Mostrar_Mejor_Tiempo());
-circuitoRedBull.SacarMonoplaza();
-
-
-Console.WriteLine($"Resultados del Circuito {circuitoFerrari.nombre} \n");
-Console.WriteLine($"Tabla de posiciones menor a mayor tiempo \n");
-
-
-foreach (KeyValuePair<string, float> pos in mejorTiempo.OrderBy(key => key.Value))  
-    {          
-        Console.WriteLine("Equipo: {0}, Tiempo: {1}", pos.Key, pos.Value);  
-    } 
